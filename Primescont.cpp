@@ -1,6 +1,12 @@
 #include <cmath>
 #include <vector>
 
+/*!
+	\brief Класс - контейнер простых чисел 
+    \author Агафонов Алексей Сергеевич
+	Данный класс реализует интерфейс позволяющий работать с простыми числами 
+    \warning Единица не простое число -> в контейнере не содержится!
+*/
 class Primes
 {
     private:
@@ -8,6 +14,13 @@ class Primes
         uint32_t* containerData = nullptr;
         uint32_t length = 0;
         bool typeFlag = true;
+        /*! 
+            Метод заполняет контейнер простыми числами до верхней границы. 
+            Применяется алгоритм: Решето Эратосфера 
+            Сложность данного алгоритма O(nlog(log(n))), что позволяется быстро находить все  
+            простые числа до заданного 
+            \param max верхняя граница
+        */
         void EratosfenesAlgorithm(uint32_t max) 
         {
             std::vector<bool> isPrimeArray(max + 1 , true);
@@ -23,6 +36,11 @@ class Primes
                 if (isPrimeArray[i] == true)
                     this->containerData[j++] = i;
         }
+        /*!
+            Статический метод - предикат проверяющий произвольное число на простоту
+            \param value число, которое необходимо проверить
+            \returns true если число простое, иначе false
+        */
         static bool isPrime(uint32_t value)
         {
             if (value < 2)
@@ -33,12 +51,103 @@ class Primes
             return true;
         }
     public:
+        friend class UnitTest;
         static Primes::ContainerType UNLIMITED = false;
+        /*!
+            Конструктор с верхней границей. Инициализирует контейнер с верхней границей (1 ... max)
+            \param max верхняя граница простых чисел
+        */
         explicit Primes(uint32_t max);
+        /*!
+            Конструктор по умоланию. Инициализирует контейнер состоящий из простых чисел до 100
+        */
         explicit Primes();
+        /*!
+            Конструктор с заданием количества простых чисел . Инициализирует контейнер состоящий из quantity элементов
+            \param quantity количество простых чисел
+            \param type флаг определяющий создание контейнера именно по количеству
+        */
         explicit Primes(uint32_t quantity, ContainerType type);
+        /*!
+            Конструктор копирования. Инициализирует контейнер являющийся полной копией контейнера, преданного в качестве аргумента
+            \param other контейнер, копию которого хотим создать
+        */
         explicit Primes(const Primes& other);
+        /*!
+            Конструктор перемещения. Используется семантика перемещения.
+            \param other контейнер, содержимое которого хотим переместить
+        */
         explicit Primes(Primes&& other);
+        /*!
+            Оператор копирующего присваивания. Метод делает текущий контейнер полной копией контейнера, преданного в качестве аргумента
+            \param other контейнер, копию которого хотим создать
+        */
+        void operator=(const Primes& other);
+        /*!
+            Оператор перемещающего присваивания. Используется семантика перемещения.
+            \param other контейнер, содержимое которого хотим переместить
+        */
+        void operator=(Primes&& other);
+        /*! 
+            \returns  Итератор на начало контейнера
+        */
+        /*!
+            \brief Класс - итератора.
+            Элементы данного класса позволяют интерироваться по контейнеру
+            \author Агафонов Алексей Сергеевич
+            
+        */
+        class Iterator{
+            private:
+                uint32_t* pointer;
+            public:
+                /*! 
+                    Конструктор, инициализирующий интератор на указанный элемент
+                    \param pointer указатель на элемент 
+                */
+                Iterator(uint32_t* pointer);
+                /*!
+                    Оператор инкремента. Метод перемещающий итератор на один элемент вперед.
+                    \warning используется инфексная запись ex: ++iter;
+                */
+                Iterator& operator++();
+                /*!
+                    Оператор разыменования. Метод позволяет получить текущий элемент контейнера.
+                    \returns Текущий элемент контейнера
+                */
+                uint32_t operator*();
+                /*!
+                    Оператор проверки на равенство. Метод проверяет совпадают ли указатели на элементы контейнера.
+                    \returns true если укзатели совпали, иначе false
+                */
+                bool operator==(const Iterator other);
+                /*!
+                    Оператор проверки на нуравенство. Метод проверяет различны ли указатели на элементы контейнера.
+                    \returns true если укзатели не совпали, иначе false
+                */
+                bool operator!=(const Iterator other);
+        };
+        Iterator begin();
+        /*! 
+            Метод возвращает итератор на конец контейнера.Для контейнера без верхней границы end() достижим только в пустом контейнере.
+            \returns Итератор на конец контейнера
+        */
+        Iterator end();
+        /*! 
+            \returns Количество простых чисел в контейнере.
+        */
+        uint32_t size();
+        /*!
+            Оператор индексации. Метод делает текущий контейнер полной копией контейнера, преданного в качестве аргумента
+            \param index Индекс элемента 
+            \throw std::out_of_range 
+            \returns Элемент контейнера с индексом index
+        */
+        uint32_t operator[](uint32_t index); 
+        /*!
+            Деструктор. Освобождает память из-под контейнера.
+        */
+        ~Primes();
 };
 Primes::Primes()
 {
@@ -76,3 +185,111 @@ Primes::Primes(Primes&& other)
     other.length = 0;
     other.typeFlag = false;
 }
+inline uint32_t Primes::size()
+{
+    return this->length;
+}
+void Primes::operator=(const Primes& other)
+{
+    if (&other == this)
+        return ;
+    delete [] this->containerData;
+    this->length = other.length;
+    this->typeFlag = other.typeFlag;
+    this->containerData = new uint32_t[this->length];
+    for (size_t i = 0; i < this->length ; i++)
+        this->containerData[i] = other.containerData[i];
+}
+void Primes::operator=(Primes&& other)
+{
+    delete [] this->containerData;
+    this->containerData = other.containerData;
+    this->length = other.length;
+    this->typeFlag = other.typeFlag;
+    other.length = 0;
+    other.typeFlag = false;
+    other.containerData = nullptr;
+}
+uint32_t Primes::operator[](uint32_t index)
+{
+    if (index >= this->length)
+        throw std::out_of_range("Out of range");
+    return this->containerData[index];
+}
+Primes::Iterator Primes::begin()
+{
+    return Iterator(this->containerData);
+}
+Primes::Iterator Primes::end()
+{
+    if (this->typeFlag == UNLIMITED)
+        return Iterator(nullptr);
+    return Iterator(this->containerData + this->length);
+}
+Primes::~Primes()
+{
+    delete [] this->containerData;
+    this->containerData = nullptr;
+}
+Primes::Iterator::Iterator(uint32_t* pointer)
+{
+    this->pointer = pointer;
+}
+inline Primes::Iterator& Primes::Iterator::operator++()
+{
+    this->pointer++;
+	return *this;
+}
+inline uint32_t Primes::Iterator::operator*()
+{
+	return *this->pointer;
+}
+inline bool Primes::Iterator::operator==(const Iterator other)
+{
+    return this->pointer == other.pointer;
+}
+inline bool Primes::Iterator::operator!=(const Iterator other)
+{
+    return !(this->pointer == other.pointer);
+}
+
+
+
+
+/*!
+    Лямбда - функция, проверяющая число на принадлежность к последовательености простых чисел Софи Жермен
+    \param value простое число
+    \returns true если принадлежит, иначе false.
+*/
+auto sofi = [](uint32_t value){
+                            for (int j = 2; j < (int)sqrt(value * 2 + 1) + 1;j++)
+                                if ((value*2 + 1) % j == 0)
+                                    return false;
+                            return true;
+                            };
+
+
+
+
+
+/*!
+    Лямбда - функция, проверяющая число на принадлежность к последовательености Суперпростых чисел 
+    \param i позиция числа в ряду контейнера
+    \returns true если принадлежит, иначе false.
+    \warning в контейнере нумерация начинается с нуля, нумерация в последовательности с единицы
+*/
+auto super =  [](uint32_t i){
+                        if (i+1 == 1)
+                            return false;
+                        for (int j = 2; j < (int)sqrt(i+1) + 1;j++)
+                            if ((i+1) % j == 0)
+                                return false;
+                        return true;
+                      }; 
+
+
+
+
+
+
+
