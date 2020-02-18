@@ -1,4 +1,5 @@
-# PrimesContainer  
+# PrimesContainer 
+## 1 is not prime!
 ## Build  
   *application:*  
   **make -f Makefile-1**  
@@ -14,5 +15,8 @@
    **-s** outputs only super-primes numbers  
    **-j** outputs only Sophie Germain primes  
    
-   ######Default settings are equal to this flag set:  -m 100######  
-  
+   **Default settings are equal to this flag set:  -m 100**  
+ ## Start Examples  
+   **./PrimeContainerApp**
+   **./PrimeContainerApp -m 1000 -f test.txt**
+   **./PrimeContainerApp -q 1000 -f test.txt -s **
