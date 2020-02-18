@@ -3,7 +3,7 @@
   *application:*
   **make -f Makefile-1** 
   *unitTests*
-  **male -f Makefile-2**
+  **make -f Makefile-2**
 ## Run
    *Start with default settings:*
     **./PrimeContainerApp** 
