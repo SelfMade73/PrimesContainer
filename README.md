@@ -18,7 +18,7 @@
    **-j** outputs only Sophie Germain primes  
    
    **Default settings are equal to this flag set:  -m 100**  
- ## Start Examples  
+ ## Flag sets examples  
    **./PrimeContainerApp**
    **./PrimeContainerApp -m 1000 -f test.txt**  
    **./PrimeContainerApp -q 1000 -f test.txt -s**  
