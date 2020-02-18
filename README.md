@@ -1,5 +1,4 @@
-# PrimesContainer
-###Агафонов Алексей Сергеевич###
+# PrimesContainer###Агафонов Алексей Сергеевич###
 ## Build
   *application:
   **make -f Makefile-1** 
