@@ -1,9 +1,9 @@
 # PrimesContainer
 ## Build
-  *application:*
-  **make -f Makefile-1** 
-  *unitTests*
-  **make -f Makefile-2**
+  *application:*  
+  **make -f Makefile-1**  
+  *unitTests*  
+  **make -f Makefile-2**  
 ## Run
    *Start with default settings:*
     **./PrimeContainerApp** 
