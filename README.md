@@ -8,7 +8,7 @@
 ## Run  
    *Start with default settings:*  
     **./PrimeContainerApp**   
-    ### Settings flags   
+### Settings flags
    **-q [value]** using container by quantity of primes  
    **-m [value]** using container with upper bound   
    **-f [filepath]** output file  
