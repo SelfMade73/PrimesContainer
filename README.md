@@ -19,4 +19,4 @@
  ## Start Examples  
    **./PrimeContainerApp**
    **./PrimeContainerApp -m 1000 -f test.txt**  
-   **./PrimeContainerApp -q 1000 -f test.txt -s **  
+   **./PrimeContainerApp -q 1000 -f test.txt -s**  
