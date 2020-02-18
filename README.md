@@ -1,13 +1,13 @@
-# PrimesContainer###Агафонов Алексей Сергеевич###
+# PrimesContainer
 ## Build
-  *application:
+  *application:*
   **make -f Makefile-1** 
-  *unitTests
+  *unitTests*
   **male -f Makefile-2**
 ## Run
    *Start with default settings:*
     **./PrimeContainerApp** 
-    ####Settings flags###
+    ### Settings flags
    **-q [value]** using container by quantity of primes
    **-m [value]** using container with upper bound
    **-f [filepath]** output file
