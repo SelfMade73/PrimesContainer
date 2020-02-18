@@ -7,7 +7,9 @@
   **make -f Makefile-2**    
 ## Run  
    *Start with default settings:*  
-    **./PrimeContainerApp**   
+    **./PrimeContainerApp**  
+   *Start tests:*    
+    **./TestApp**  
 ### Settings flags
    **-q [value]** using container by quantity of primes  
    **-m [value]** using container with upper bound   
